@@ -64,6 +64,76 @@
       color: #222;
     }
 
+    .teaser {
+      display: grid;
+      gap: 18px;
+      margin: 0 0 42px;
+    }
+
+    .pipeline-img {
+      width: 100%;
+      display: block;
+      border-radius: 14px;
+      background: white;
+      box-shadow: 0 6px 24px rgba(0, 0, 0, 0.08);
+    }
+
+    .results {
+      margin-top: 36px;
+      text-align: left;
+    }
+
+    .results h2 {
+      text-align: center;
+    }
+
+    .results table {
+      width: 100%;
+      border-collapse: collapse;
+      overflow: hidden;
+      border-radius: 14px;
+      background: white;
+      box-shadow: 0 6px 24px rgba(0, 0, 0, 0.06);
+    }
+
+    .results th,
+    .results td {
+      padding: 14px 16px;
+      border-bottom: 1px solid #e5e7eb;
+      text-align: center;
+    }
+
+    .results th:first-child,
+    .results td:first-child {
+      text-align: left;
+    }
+
+    .results th {
+      background: #f1f3f5;
+      font-weight: 700;
+    }
+
+    .results tr:last-child td {
+      border-bottom: 0;
+    }
+
+    .rendering {
+      width: 100%;
+      max-width: 620px;
+      display: block;
+      margin: 26px auto 0;
+      border-radius: 14px;
+      background: white;
+      box-shadow: 0 6px 24px rgba(0, 0, 0, 0.08);
+    }
+
+    .caption {
+      max-width: 760px;
+      margin: -22px auto 42px;
+      color: #555;
+      font-size: 15px;
+    }
+
     .abstract {
       background: white;
       padding: 28px;
@@ -81,6 +151,20 @@
       margin-top: 42px;
       color: #777;
       font-size: 14px;
+    }
+
+    @media (max-width: 720px) {
+      .container {
+        padding: 42px 18px;
+      }
+
+      h1 {
+        font-size: 36px;
+      }
+
+      .subtitle {
+        font-size: 18px;
+      }
     }
   </style>
 </head>
@@ -107,21 +191,72 @@
       <span class="button secondary">Code coming soon</span>
     </div>
 
+    <div class="teaser">
+      <img class="pipeline-img" src="./pipeline.png" alt="SplatTree pipeline overview" />
+    </div>
+
+    <div class="caption">
+      SplatTree uses a hierarchical 3D pipeline for structured, multi-resolution Gaussian generation.
+    </div>
+
     <div class="abstract">
       <h2>Abstract</h2>
       <p>
-        SplatTree is a feed-forward 3D Gaussian generation framework that moves Gaussian decoding from 2D image space into 3D voxel space. It lifts geometry-aware features from VGGT into a unified voxel representation and decodes Gaussian attributes with sparse 3D convolutions.
+        Geometry vision transformers such as VGGT jointly predict depth, camera poses, and rich visual features from multi-view images in a single forward pass. However, existing VGGT-based 3D Gaussian Splatting methods decode Gaussians independently in 2D image space, leaving the spatial context in 3D underused.
       </p>
 
       <p>
-        The method further introduces a multi-resolution decoder that generates Gaussians at different voxel scales. Coarse levels provide a lightweight approximation, while finer levels can be activated when more computation or storage is available.
+        SplatTree bridges this gap by lifting VGGT's geometry-grounded features into a unified 3D voxel representation and decoding Gaussian attributes with sparse 3D convolutions. It further introduces a multi-resolution decoder that generates Gaussians at multiple voxel scales, enabling coarse-to-fine rendering under different computation or bandwidth budgets.
       </p>
     </div>
 
+    <div class="results">
+      <h2>Results</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Method</th>
+            <th>Steps</th>
+            <th>PSNR ↑</th>
+            <th>SSIM ↑</th>
+            <th>LPIPS ↓</th>
+            <th>#GS</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>AnySplat</td>
+            <td>20K</td>
+            <td>23.01</td>
+            <td>0.743</td>
+            <td>0.258</td>
+            <td>352K</td>
+          </tr>
+          <tr>
+            <td>SplatTree-Single</td>
+            <td>20K</td>
+            <td>23.47</td>
+            <td>0.758</td>
+            <td>0.242</td>
+            <td>350K</td>
+          </tr>
+          <tr>
+            <td>SplatTree</td>
+            <td>40K</td>
+            <td><strong>23.65</strong></td>
+            <td><strong>0.762</strong></td>
+            <td><strong>0.233</strong></td>
+            <td>574K</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <img class="rendering" src="./rendering.png" alt="Rendering result produced by SplatTree" />
+    </div>
+
     <footer>
-      SplatTree · CVPR Workshop 2026
+      SplatTree · CVPR Workshop 2026 · Contact: <a href="mailto:rg4827@nyu.edu">rg4827@nyu.edu</a>
     </footer>
   </div>
 </body>
 </html>
-```
